@@ -55,7 +55,8 @@ class App extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md={12}>
+          <Col md={4} />
+          <Col md={4}>
             <ResultPanel result={this.state.result} criteria={this.state.criteria} />
           </Col>
         </Row>

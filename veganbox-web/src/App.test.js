@@ -4,6 +4,7 @@ import App from './App';
 import { shallow, mount } from 'enzyme';
 
 import SearchBar from './SearchBar'
+import ResultPanel from './ResultPanel'
 
 import nock from 'nock'
 
@@ -30,6 +31,11 @@ describe('Vegan Box', () => {
   it('renders search bar component', () => {
     const wrapper = shallow(<App />);
     expect(wrapper.find(SearchBar)).toHaveLength(1);
+  })
+
+  it('renders result panel component', () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find(ResultPanel)).toHaveLength(1);
   })
 
   it('populare searchCriteria props', () => {

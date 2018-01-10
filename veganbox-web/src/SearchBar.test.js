@@ -1,5 +1,4 @@
 import React from 'react';
-import App from './App';
 import { shallow, mount } from 'enzyme';
 
 import SearchBar from './SearchBar'

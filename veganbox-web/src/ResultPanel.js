@@ -1,13 +1,29 @@
 import React, { Component } from 'react';
 
+import { Glyphicon } from 'react-bootstrap'
+
 class ResultPanel extends Component {
 
+    shouldComponentUpdate(nextProps) {
+        return nextProps.result !== this.props.result
+    }
+
     render() {
-        return (
-            <div>
-                <div><span id="resultPanel">{ JSON.stringify(this.props.result) }</span></div>
-            </div>
-        )
+        if (this.props.criteria.length === 0) {
+            return <div />
+        }
+
+        const ok = <div id="result-ok">
+            <Glyphicon glyph="ok" />
+            <span id="resultPanel" style={{marginLeft: '8px'}}>{`Good choice! Finish that ${this.props.criteria}`}</span>
+        </div>
+
+        const bad = <div id="result-bad">
+            <Glyphicon glyph="remove" />
+            <span id="resultPanel" style={{marginLeft: '8px'}}>{`${this.props.criteria} is a no no, find other food`}</span>
+        </div>
+
+        return this.props.result ? ok : bad
     }
 }
 
