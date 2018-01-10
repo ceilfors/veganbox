@@ -1,0 +1,25 @@
+{
+  "name": "veganbox-food-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "micro -p 3001",
+    "dev": "micro-dev -p 3001",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "micro": "^9.1.0",
+    "microrouter": "^3.0.0"
+  },
+  "devDependencies": {
+    "jest": "^22.0.5",
+    "micro-dev": "^2.2.0",
+    "r2": "^2.0.0",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "test-listen": "^1.1.0"
+  }
+}
