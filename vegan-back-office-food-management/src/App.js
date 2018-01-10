@@ -10,12 +10,13 @@ class App extends Component {
       isVegan: false
     }
     this.submitFn = this.submitFn.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
   }
 
   submitFn() {
     const options = {
       method: 'POST',
-      uri: 'http://localhost:8080/food',
+      uri: 'http://localhost:3001/food',
       body: {
           food: this.state.food,
           isVegan: this.state.isVegan
@@ -29,9 +30,15 @@ class App extends Component {
       })
   };
 
+  handleInputChange(name, value) {
+    this.setState({
+      [name]: value
+    });
+  }
+
   render() {
     return (
-      <AddFood submitFn={this.submitFn}/>
+      <AddFood submitFn={this.submitFn} handleInputChange={this.handleInputChange} food={this.state.food} isVegan={this.state.isVegan}/>
     );
   }
 }

@@ -36,7 +36,7 @@ describe('AddFood', () => {
   })
 
   it('executes post when submit button is pressed', () => {
-    const backend = nock('http://localhost:8080')
+    const backend = nock('http://localhost:3001')
                   .post('/food', {
                   food: '',
                   isVegan: false
