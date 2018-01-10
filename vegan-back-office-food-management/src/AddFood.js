@@ -40,7 +40,7 @@ class AddFood extends Component {
             id="food"
             type="text"
             label="Food"
-            name="food"
+            name="name"
             placeholder="Enter food"
             food={ this.props.food }
             onChange={this.handleInputChange}

@@ -6,7 +6,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      food: '',
+      name: '',
       isVegan: false
     }
     this.submitFn = this.submitFn.bind(this)
@@ -18,7 +18,7 @@ class App extends Component {
       method: 'POST',
       uri: 'http://localhost:3001/food',
       body: {
-          food: this.state.food,
+          name: this.state.name,
           isVegan: this.state.isVegan
       },
       json: true
@@ -38,7 +38,7 @@ class App extends Component {
 
   render() {
     return (
-      <AddFood submitFn={this.submitFn} handleInputChange={this.handleInputChange} food={this.state.food} isVegan={this.state.isVegan}/>
+      <AddFood submitFn={this.submitFn} handleInputChange={this.handleInputChange} food={this.state.name} isVegan={this.state.isVegan}/>
     );
   }
 }
