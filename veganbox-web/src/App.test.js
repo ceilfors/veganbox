@@ -7,7 +7,9 @@ import SearchBar from './SearchBar'
 
 import nock from 'nock'
 
-describe.only('Vegan Box', () => {
+const wait = (delay) => new Promise(resolve => setTimeout(resolve, delay))
+
+describe('Vegan Box', () => {
 
   beforeEach(() => {
     var backend = nock('http://localhost:8080')
@@ -37,32 +39,17 @@ describe.only('Vegan Box', () => {
       target: { value: 'hello' }
     })
     expect(wrapper.state('criteria')).toEqual('hello')
-  })
+  })  
 
-  it('calls search with search criteria', () => {
-    // setup nock
-    global.Promise = require.requireActual('promise')
+  it('calls search with search criteria', async () => {
     const searchFn = jest.fn()
     const wrapper = mount(<App url='http://localhost:8080'/>)
     wrapper.find('input#searchTextBox').simulate('change', {
       target: { value: 'hello' }
     })
     wrapper.find('button#searchButton').simulate('click')
-    // setTimeout(() => { 
-    //   expect(wrapper.state('result')).toEqual('true')
-    //   done();
-    // }, 10); 
     
-    return new Promise(resolve => {
-      console.log('here')
-      // resolve()
-      // expect(wrapper.state('data')).toEqual('true')
-      
-      setTimeout(function() {
-        console.log('test')
-        expect(wrapper.state('data')).toEqual('true')
-        resolve()
-      }, 10);
-    });
+    await wait(500)
+    expect(wrapper.state('result')).toEqual(true)
   })
 })
