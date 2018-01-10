@@ -17,23 +17,15 @@ function FieldGroup({ id, label, help, ...props }) {
 class AddFood extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      food: '',
-      isVegan: false
-    }
 
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-
 
   handleInputChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
+    this.props.handleInputChange(name, value)
   }
 
   render() {
@@ -48,8 +40,9 @@ class AddFood extends Component {
             id="food"
             type="text"
             label="Food"
+            name="food"
             placeholder="Enter food"
-            food={ this.state.food }
+            food={ this.props.food }
             onChange={this.handleInputChange}
           />
           <Col componentClass={ControlLabel} sm={5}>
@@ -59,7 +52,7 @@ class AddFood extends Component {
             <Checkbox
               id='isVegan'
               name="isVegan"
-              checked={this.state.isVegan}
+              checked={this.props.isVegan}
               onChange={this.handleInputChange}
             />
           </Col>
