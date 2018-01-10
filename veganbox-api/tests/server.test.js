@@ -4,7 +4,34 @@ let chaiHttp = require('chai-http');
 let should = chai.should();
 chai.use(chaiHttp);
 
+let nock = require('nock')
+
 describe('Foods', () => {
+
+  beforeEach(() => {
+    nock('http://localhost:3001')
+      .get('/food')
+      .reply(200, JSON.stringify([
+        {
+          "name": "frazzles",
+          "isVegan": false
+        },
+        {
+          "name": "oreos",
+          "isVegan": true
+        },
+        {
+          "name": "ritz crackers",
+          "isVegan": true
+        },
+        {
+          "name": "nature valley crunchy granola bars",
+          "isVegan": true
+        }
+      ]
+      ));
+  })
+
   describe('GET /search with food that is in json file', () => {
     it('it should return 200', (done) => {
       chai.request(server)

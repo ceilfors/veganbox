@@ -1,7 +1,6 @@
 var express = require('express')
 var app = express()
-
-const foods = require('../data/veganFood')
+let r2 = require('r2')
 
 app.use(function(request, response, next) {
   response.header("Access-Control-Allow-Origin", "*")
@@ -10,8 +9,10 @@ app.use(function(request, response, next) {
 })
 
 // /search?food=bla
-app.get('/search', (request, response) => {
+app.get('/search', async (request, response) => {
   const foodName = request.query.food
+
+  const foods = await r2(`http://localhost:3001/food`).json
 
   let food = foods.filter(food => food.name.toLowerCase() == foodName.toLowerCase())[0]
 
