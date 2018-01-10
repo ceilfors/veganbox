@@ -1,0 +1,14 @@
+---
+- hosts: all
+  sudo: true
+  tasks:
+    - name: install nodejs
+      apt: name=nodejs
+    - name: install npm
+      apt: name=npm
+    - name: install unzip
+      apt: name=unzip
+    - name: unzip the code
+      unarchive: src=./vegan-box.zip dest=/home
+    - name: go to vegan-box folder and install npm dependencies
+      command: chdir=/home/vegan-box npm install
