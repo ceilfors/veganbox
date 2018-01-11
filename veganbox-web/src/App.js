@@ -12,7 +12,8 @@ class App extends Component {
     super(props)
     this.state = {
       result: undefined,
-      criteria: ''
+      criteria: '',
+      lastSearchedCriteria: ''
     }
     this.search = this.search.bind(this)
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this)
@@ -33,7 +34,7 @@ class App extends Component {
     }
     return rp(options)
       .then(result => {
-        this.setState({result})
+        this.setState({result, lastSearchedCriteria: this.state.criteria})
       })
   }
 
@@ -57,7 +58,7 @@ class App extends Component {
         <Row>
           <Col md={4} />
           <Col md={4}>
-            <ResultPanel result={this.state.result} criteria={this.state.criteria} />
+            <ResultPanel result={this.state.result} criteria={this.state.lastSearchedCriteria} />
           </Col>
         </Row>
       </Grid>

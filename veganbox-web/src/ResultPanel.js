@@ -4,10 +4,6 @@ import { Glyphicon } from 'react-bootstrap'
 
 class ResultPanel extends Component {
 
-    shouldComponentUpdate(nextProps) {
-        return nextProps.result !== this.props.result
-    }
-
     render() {
         if (this.props.criteria.length === 0) {
             return <div />
