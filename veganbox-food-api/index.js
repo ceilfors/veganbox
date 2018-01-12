@@ -10,7 +10,9 @@ const saveFood = async (req, res) => {
 }
 
 const listFood = (req, res) => {
-  return db
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  send(res, 200, db)
 }
 
 const notfound = (req, res) =>
