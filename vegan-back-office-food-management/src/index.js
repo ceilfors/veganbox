@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import List from './List';
+import AddFoodPage from './App';
+import ListPage from './List';
 import {
     BrowserRouter as Router,
     Route,
@@ -15,16 +15,7 @@ const foodApi = {
     }
 }
 
-const ListPage = (props) => {
-    return (
-        <List
-            foodApi={foodApi}
-            {...props}
-        />
-    );
-}
-
-const BasicExample = () => (
+const App = () => (
     <Router>
         <div>
             <ul>
@@ -34,10 +25,10 @@ const BasicExample = () => (
 
             <hr />
 
-            <Route exact path="/" render={ListPage} />
-            <Route path="/add" component={App} />
+            <Route exact path="/" render={() => <ListPage foodApi={foodApi} />} />
+            <Route path="/add" component={AddFoodPage} />
         </div>
     </Router>
 )
 
-ReactDOM.render(<BasicExample />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
