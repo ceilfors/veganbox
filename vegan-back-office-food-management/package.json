@@ -7,6 +7,7 @@
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.0",
     "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "request-promise-native": "^1.0.5",
     "rest": "^2.0.0"
@@ -15,11 +16,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-wait": "^1.0.9",
     "nock": "^9.1.6"
   }
 }
