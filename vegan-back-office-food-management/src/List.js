@@ -1,48 +1,49 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+
+import OrderedFoodList from './OrderedFoodList'
 
 class List extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      foods: []
-    }
+    
+    this.deleteFood = this.deleteFood.bind(this)
   }
 
   async componentDidMount() {
     const foods = await this.props.foodApi.getFoods()
-    this.setState({foods})
+    this.props.dispatch({type: 'LIST', foods})
   }
 
   async deleteFood(name) {
     try {
       await this.props.foodApi.deleteFood(name)
-      const newFoods = this.state.foods.filter(food => food.name !== name)
-      this.setState({foods: newFoods})
-    } catch(err){
-      console.log(err)
+      this.props.dispatch({type: 'DELETE', name})
+    } catch (err) {
+      // console.log(err)
     }
   }
-  
-  render() {
-    const foodLi = (food, i) => {
-      return (
-        <li key={i}>
-          {food.name} {JSON.stringify(food.isVegan)} {<button data-test={`${food.name}-delete`} onClick={() => this.deleteFood(food.name)}>X</button>}
-        </li>
-      )
-    }
 
-    return (      
-      <div data-test='food-list'>
-        <ol>
-          {
-            this.state.foods.map(foodLi)
-          }
-        </ol>
-      </div>
+  render() {
+    return (
+      <OrderedFoodList foods={this.props.foods} deleteFood={this.deleteFood} />
     );
   }
 }
 
-export default List;
+const mapStateToProps = (state = {foods: []}) => {
+  return {
+    foods: state.foods
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(List);
