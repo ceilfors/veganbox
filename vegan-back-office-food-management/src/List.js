@@ -15,11 +15,19 @@ class List extends Component {
   }
   
   render() {
-    return (
+    const foodLi = (food, i) => {
+      return (
+        <li key={i}>
+          {food.name} {JSON.stringify(food.isVegan)} {<button data-test={`${food.name}-delete`}>X</button>}
+        </li>
+      )
+    }
+
+    return (      
       <div data-test='food-list'>
         <ol>
           {
-            this.state.foods.map((food, i) => <li key={i}>{food.name} {JSON.stringify(food.isVegan)}</li>)
+            this.state.foods.map(foodLi)
           }
         </ol>
       </div>

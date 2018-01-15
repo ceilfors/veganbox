@@ -8,7 +8,9 @@ import { createWaitForElement } from 'enzyme-wait';
 configure({ adapter: new Adapter() });
 
 describe('List', () => {
-  it('should list foods from food api', async () => {
+  let wrapper, waitForFoodList
+
+  beforeEach(() => {
     const data = [
       {
         "name": "frazzles",
@@ -23,11 +25,24 @@ describe('List', () => {
       getFoods: () => Promise.resolve(data)
     }
 
-    const waitForSample = createWaitForElement('[data-test="food-list"]');
-    const wrapper = mount(<List foodApi={foodApi}/>)
-    await waitForSample(wrapper)
+    waitForFoodList = createWaitForElement('[data-test="food-list"]');
+    wrapper = mount(<List foodApi={foodApi}/>)
+  })
+
+  it('should list foods from food api', async () => {
+    await waitForFoodList(wrapper)
     const foodList = wrapper.find('[data-test="food-list"]')
     expect(foodList.html().includes('frazzles')).toBe(true)
     expect(foodList.html().includes('oreos')).toBe(true)
+  })
+
+  it('should contain a delete button', async () => {
+    await waitForFoodList(wrapper)
+    wrapper.update()
+    const foodList = wrapper.find('[data-test="food-list"]')
+    const frazzlesDel = foodList.find('[data-test="frazzles-delete"]')
+    const oreosDel = foodList.find('[data-test="oreos-delete"]')
+    expect(frazzlesDel.exists()).toEqual(true)
+    expect(oreosDel.exists()).toEqual(true)
   })
 })
