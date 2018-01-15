@@ -17,7 +17,11 @@ class List extends Component {
   render() {
     return (
       <div data-test='food-list'>
-        {JSON.stringify(this.state.foods)}
+        <ol>
+          {
+            this.state.foods.map((food, i) => <li key={i}>{food.name} {JSON.stringify(food.isVegan)}</li>)
+          }
+        </ol>
       </div>
     );
   }

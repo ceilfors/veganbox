@@ -30,8 +30,4 @@ describe('List', () => {
     expect(foodList.html().includes('frazzles')).toBe(true)
     expect(foodList.html().includes('oreos')).toBe(true)
   })
-
-  it('should', () => {
-    
-  })
 })
