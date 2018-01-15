@@ -13,12 +13,22 @@ class List extends Component {
     const foods = await this.props.foodApi.getFoods()
     this.setState({foods})
   }
+
+  async deleteFood(name) {
+    try {
+      await this.props.foodApi.deleteFood(name)
+      const newFoods = this.state.foods.filter(food => food.name !== name)
+      this.setState({foods: newFoods})
+    } catch(err){
+      console.log(err)
+    }
+  }
   
   render() {
     const foodLi = (food, i) => {
       return (
         <li key={i}>
-          {food.name} {JSON.stringify(food.isVegan)} {<button data-test={`${food.name}-delete`}>X</button>}
+          {food.name} {JSON.stringify(food.isVegan)} {<button data-test={`${food.name}-delete`} onClick={() => this.deleteFood(food.name)}>X</button>}
         </li>
       )
     }

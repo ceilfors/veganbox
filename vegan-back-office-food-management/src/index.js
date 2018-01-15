@@ -12,6 +12,12 @@ const foodApi = {
     getFoods: async () => {
         const res = await fetch('http://localhost:3001/food')
         return res.json()
+    },
+    deleteFood: async (name) => {
+        const res = await fetch(`http://localhost:3001/food/${name}`, {
+            method: 'delete'
+        })
+        return res.json()
     }
 }
 

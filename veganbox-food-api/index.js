@@ -1,5 +1,5 @@
 const { json, send } = require('micro')
-const { router, get, post, options } = require('microrouter')
+const { router, get, del, post, options } = require('microrouter')
 
 let db = require('./data/veganFood')
 
@@ -10,8 +10,6 @@ const saveFood = async (req, res) => {
 }
 
 const listFood = (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   send(res, 200, db)
 }
 
@@ -19,14 +17,25 @@ const notfound = (req, res) =>
   send(res, 404, 'Not found route')
 
 const optionsFn = (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   send(res, 200)
 }
 
+const deleteFn = (req, res) => {
+  db = db.filter(food => food.name !== decodeURIComponent(req.params.name))
+  send(res, 200, {message: "success"})
+}
+
+const cors = fn => (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE')
+  fn(req, res)
+}
+
 module.exports = router(
-  get('/food', listFood),
-  post('/food', saveFood),
+  get('/food', cors(listFood)),
+  post('/food', cors(saveFood)),
   get('/*', notfound),
-  options('/*', optionsFn)
+  options('/*', cors(optionsFn)),
+  del('/food/:name', cors(deleteFn))
 )

@@ -8,7 +8,7 @@ import { createWaitForElement } from 'enzyme-wait';
 configure({ adapter: new Adapter() });
 
 describe('List', () => {
-  let wrapper, waitForFoodList
+  let wrapper, waitForFoodList, foodApi
 
   beforeEach(() => {
     const data = [
@@ -21,8 +21,10 @@ describe('List', () => {
         "isVegan": true
       }
     ]
-    const foodApi = {
-      getFoods: () => Promise.resolve(data)
+    
+    foodApi = {
+      getFoods: () => Promise.resolve(data),
+      deleteFood: jest.fn()
     }
 
     waitForFoodList = createWaitForElement('[data-test="food-list"]');
@@ -44,5 +46,39 @@ describe('List', () => {
     const oreosDel = foodList.find('[data-test="oreos-delete"]')
     expect(frazzlesDel.exists()).toEqual(true)
     expect(oreosDel.exists()).toEqual(true)
+  })
+
+  describe('when frazzles delete button is clicked', () => {
+    it('should delete frazzles from UI', async () => {
+      foodApi.deleteFood.mockImplementation(_ => Promise.resolve())
+      await waitForFoodList(wrapper)
+      wrapper.update()
+      const foodList = wrapper.find('[data-test="food-list"]')
+      const frazzlesDel = foodList.find('[data-test="frazzles-delete"]')
+      await frazzlesDel.simulate('click')
+      
+      expect(foodList.html().includes('frazzles')).toBe(false)
+    })
+
+    it('should not delete frazzles from UI if the rest api returns error', async () => {
+      foodApi.deleteFood.mockImplementation(_ => {throw new Error('boo')})
+      await waitForFoodList(wrapper)
+      wrapper.update()
+      const foodList = wrapper.find('[data-test="food-list"]')
+      const frazzlesDel = foodList.find('[data-test="frazzles-delete"]')
+      await frazzlesDel.simulate('click')
+      
+      expect(foodList.html().includes('frazzles')).toBe(true)
+    })
+
+    it('should call rest API with delete', async () => {
+      await waitForFoodList(wrapper)
+      wrapper.update()
+      const foodList = wrapper.find('[data-test="food-list"]')
+      const frazzlesDel = foodList.find('[data-test="frazzles-delete"]')
+      frazzlesDel.simulate('click')
+      expect(foodApi.deleteFood).toHaveBeenCalledTimes(1)
+      expect(foodApi.deleteFood).toBeCalledWith('frazzles')
+    })
   })
 })
